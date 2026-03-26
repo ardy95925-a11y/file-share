@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEON UI KIT — Free Downloads</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #060810;
+    --blue-core: #1a3fff;
+    --blue-glow: #4d7fff;
+    --blue-bright: #00aaff;
+    --blue-panel: #0a1a5c;
+    --blue-inner: #0d2080;
+    --green-neon: #00ff44;
+    --red-neon: #ff2233;
+    --yellow-neon: #ffd700;
+    --text: #b0ccff;
+    --text-bright: #e8f0ff;
+    --dot-color: rgba(100,150,255,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,30,100,0.03) 2px,
+      rgba(0,30,100,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue-glow), var(--blue-bright), var(--blue-glow), transparent);
+    margin-top: 40px;
+    box-shadow: 0 0 20px var(--blue-bright);
+  }
+
+  .site-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    color: var(--text-bright);
+    text-shadow:
+      0 0 10px var(--blue-bright),
+      0 0 30px var(--blue-bright),
+      0 0 80px var(--blue-glow);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .site-sub {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+    letter-spacing: 0.5em;
+    color: var(--blue-glow);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  /* ========== GRID ========== */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .card-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--blue-glow);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .preview-wrap {
+    background: #08101e;
+    border: 1px solid rgba(77,127,255,0.3);
+    border-radius: 6px 6px 0 0;
+    padding: 32px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,63,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .dl-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #0a1a5c 0%, #0d2080 100%);
+    border: 1px solid var(--blue-glow);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    color: var(--text-bright);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dl-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,170,255,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .dl-btn:hover { border-color: var(--blue-bright); color: #fff; }
+  .dl-btn:hover::before { opacity: 1; }
+  .dl-btn:hover { box-shadow: 0 0 18px rgba(0,170,255,0.4), inset 0 0 18px rgba(0,170,255,0.08); }
+
+  .dl-btn svg { flex-shrink: 0; }
+
+  /* ========== DOTTED TEXTURE MIXIN ========== */
+  .dots {
+    background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+    background-size: 12px 12px;
+  }
+
+  /* ========== NEON PANEL BASE ========== */
+  .neon-panel {
+    background: var(--blue-inner);
+    border: 2px solid var(--blue-core);
+    border-radius: 12px;
+    box-shadow:
+      0 0 8px var(--blue-core),
+      0 0 24px rgba(26,63,255,0.5),
+      0 0 60px rgba(26,63,255,0.2),
+      inset 0 0 20px rgba(0,30,120,0.8);
+    position: relative;
+  }
+
+  .neon-panel-outer {
+    background: rgba(5,10,40,0.9);
+    border: 2px solid var(--blue-bright);
+    border-radius: 16px;
+    box-shadow:
+      0 0 10px var(--blue-bright),
+      0 0 40px rgba(0,170,255,0.4),
+      0 0 100px rgba(0,170,255,0.15);
+    padding: 8px;
+  }
+
+  /* ==========================================
+     COMPONENT 1: PLAYER STAT CARD
+  ========================================== */
+  .stat-card {
+    width: 260px;
+  }
+
+  .stat-card .neon-panel-outer {
+    padding: 10px;
+  }
+
+  .stat-card-inner {
+    background: linear-gradient(180deg, #0d1e6e 0%, #091550 100%);
+    border: 2px solid var(--blue-core);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: inset 0 0 30px rgba(0,50,200,0.6);
+  }
+
+  .stat-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid var(--blue-bright);
+    box-shadow: 0 0 15px var(--blue-bright), inset 0 0 15px rgba(0,100,255,0.4);
+    background: radial-gradient(circle at 35% 30%, #2a5fff, #0a1a6e);
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    color: var(--text-bright);
+    text-shadow: 0 0 10px var(--blue-bright);
+  }
+
+  .stat-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: #fff;
+    text-shadow: 0 0 8px var(--blue-bright);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .stat-rank {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--blue-glow);
+    text-align: center;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .stat-bars { display: flex; flex-direction: column; gap: 7px; }
+
+  .stat-row { display: flex; align-items: center; gap: 8px; }
+
+  .stat-row-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: var(--blue-glow);
+    width: 28px;
+    text-transform: uppercase;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(0,20,80,0.8);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 0 6px rgba(0,20,80,0.6);
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 6px currentColor;
+  }
+
+  .bar-hp { background: linear-gradient(90deg, #00cc44, #00ff66); width: 80%; box-shadow: 0 0 8px #00ff44; }
+  .bar-mp { background: linear-gradient(90deg, #0044ff, #44aaff); width: 65%; box-shadow: 0 0 8px #4488ff; }
+  .bar-xp { background: linear-gradient(90deg, #ff8800, #ffcc00); width: 45%; box-shadow: 0 0 8px #ffaa00; }
+
+  /* ==========================================
+     COMPONENT 2: BUTTON SET
+  ========================================== */
+  .btn-set {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 240px;
+  }
+
+  .neon-btn {
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .neon-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+  }
+
+  .neon-btn-green {
+    background: linear-gradient(180deg, rgba(0,200,50,0.3), rgba(0,120,30,0.4));
+    border-color: var(--green-neon);
+    color: #aaffcc;
+    box-shadow: 0 0 12px rgba(0,255,68,0.6), 0 0 30px rgba(0,255,68,0.2), inset 0 0 15px rgba(0,255,68,0.15);
+    text-shadow: 0 0 8px var(--green-neon);
+  }
+
+  .neon-btn-red {
+    background: linear-gradient(180deg, rgba(200,0,30,0.35), rgba(120,0,20,0.45));
+    border-color: var(--red-neon);
+    color: #ffaaaa;
+    box-shadow: 0 0 12px rgba(255,34,51,0.6), 0 0 30px rgba(255,34,51,0.2), inset 0 0 15px rgba(255,34,51,0.15);
+    text-shadow: 0 0 8px var(--red-neon);
+  }
+
+  .neon-btn-yellow {
+    background: linear-gradient(180deg, rgba(200,160,0,0.35), rgba(120,90,0,0.45));
+    border-color: var(--yellow-neon);
+    color: #fff0aa;
+    box-shadow: 0 0 12px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.2), inset 0 0 15px rgba(255,215,0,0.15);
+    text-shadow: 0 0 8px var(--yellow-neon);
+  }
+
+  .neon-btn-blue {
+    background: linear-gradient(180deg, rgba(0,80,255,0.4), rgba(0,40,180,0.5));
+    border-color: var(--blue-bright);
+    color: #aaddff;
+    box-shadow: 0 0 12px rgba(0,170,255,0.6), 0 0 30px rgba(0,170,255,0.2), inset 0 0 15px rgba(0,170,255,0.15);
+    text-shadow: 0 0 8px var(--blue-bright);
+  }
+
+  /* ==========================================
+     COMPONENT 3: PANEL WITH NOTCH
+  ========================================== */
+  .notch-panel {
+    width: 260px;
+    background: linear-gradient(180deg, #0a1860 0%, #06103e 100%);
+    border: 2px solid var(--blue-core);
+    border-radius: 14px;
+    box-shadow: 0 0 12px var(--blue-core), 0 0 40px rgba(26,63,255,0.4), inset 0 0 30px rgba(0,20,100,0.7);
+    padding: 14px;
+    position: relative;
+  }
+
+  .notch-panel-header {
+    background: linear-gradient(180deg, #0d2090 0%, #091a70 100%);
+    border: 1px solid rgba(77,127,255,0.6);
+    border-radius: 10px 10px 0 0;
+    padding: 12px 16px;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .notch-panel-header::after {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 14px solid rgba(77,127,255,0.6);
+    filter: drop-shadow(0 2px 4px rgba(0,100,255,0.4));
+    z-index: 2;
+  }
+
+  .notch-panel-header-inner::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 13px solid #091a70;
+    z-index: 3;
+  }
+
+  .notch-panel-header-inner {
+    position: relative;
+  }
+
+  .np-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: #fff;
+    text-shadow: 0 0 8px var(--blue-bright);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .np-body {
+    background: linear-gradient(180deg, #061240 0%, #040d30 100%);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 22px 14px 14px;
+    margin-top: 0;
+  }
+
+  .np-body .dots {
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .np-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .np-stat-box {
+    background: rgba(0,20,80,0.6);
+    border: 1px solid rgba(77,127,255,0.35);
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .np-stat-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: #fff;
+    text-shadow: 0 0 8px var(--blue-bright);
+  }
+
+  .np-stat-lbl {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--blue-glow);
+    text-transform: uppercase;
+  }
+
+  /* ==========================================
+     COMPONENT 4: INVENTORY GRID
+  ========================================== */
+  .inventory {
+    width: 260px;
+  }
+
+  .inv-outer {
+    background: #070f38;
+    border: 2px solid var(--blue-bright);
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(0,170,255,0.5), 0 0 50px rgba(0,170,255,0.15), inset 0 0 25px rgba(0,30,120,0.8);
+    padding: 14px;
+  }
+
+  .inv-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    color: var(--blue-bright);
+    text-shadow: 0 0 6px var(--blue-bright);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .inv-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .inv-slot {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #061240 0%, #040d30 100%);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    position: relative;
+    box-shadow: inset 0 0 8px rgba(0,20,80,0.8);
+  }
+
+  .inv-slot.filled {
+    border-color: rgba(77,127,255,0.7);
+    background: linear-gradient(135deg, #0a1860 0%, #07144a 100%);
+    box-shadow: 0 0 6px rgba(0,100,255,0.3), inset 0 0 8px rgba(0,30,120,0.6);
+  }
+
+  .inv-slot .slot-count {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.45rem;
+    color: var(--yellow-neon);
+    text-shadow: 0 0 4px var(--yellow-neon);
+  }
+
+  /* ==========================================
+     COMPONENT 5: ALERT/DIALOG BOX
+  ========================================== */
+  .alert-box {
+    width: 270px;
+    background: linear-gradient(180deg, #0c1a5e 0%, #070f40 100%);
+    border: 2px solid var(--blue-bright);
+    border-radius: 14px;
+    box-shadow: 0 0 12px var(--blue-bright), 0 0 40px rgba(0,170,255,0.3), inset 0 0 25px rgba(0,40,140,0.7);
+    overflow: hidden;
+  }
+
+  .alert-header {
+    background: linear-gradient(90deg, #0030cc, #0055ff, #0030cc);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(0,170,255,0.4);
+  }
+
+  .alert-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--yellow-neon);
+    box-shadow: 0 0 10px var(--yellow-neon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: #000;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .alert-title-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: #fff;
+    text-shadow: 0 0 6px var(--blue-bright);
+    text-transform: uppercase;
+  }
+
+  .alert-body {
+    padding: 16px;
+  }
+
+  .alert-msg {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  .alert-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .alert-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1.5px solid;
+    cursor: pointer;
+  }
+
+  .alert-btn-confirm {
+    background: rgba(0,180,60,0.25);
+    border-color: var(--green-neon);
+    color: #aaffcc;
+    box-shadow: 0 0 8px rgba(0,255,68,0.3), inset 0 0 10px rgba(0,255,68,0.08);
+    text-shadow: 0 0 6px var(--green-neon);
+  }
+
+  .alert-btn-cancel {
+    background: rgba(200,0,30,0.2);
+    border-color: var(--red-neon);
+    color: #ffaaaa;
+    box-shadow: 0 0 8px rgba(255,34,51,0.3), inset 0 0 10px rgba(255,34,51,0.08);
+    text-shadow: 0 0 6px var(--red-neon);
+  }
+
+  /* ==========================================
+     COMPONENT 6: SIDE PANEL (tall)
+  ========================================== */
+  .side-panel {
+    width: 110px;
+    min-height: 280px;
+    background: #070f38;
+    border: 2px solid var(--blue-bright);
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,170,255,0.5), 0 0 50px rgba(0,170,255,0.15), inset 0 0 20px rgba(0,30,120,0.8);
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  }
+
+  .side-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(100,150,255,0.14) 1px, transparent 1px);
+    background-size: 10px 10px;
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  .side-nav-item {
+    background: rgba(0,20,80,0.5);
+    border: 1px solid rgba(77,127,255,0.35);
+    border-radius: 6px;
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 1.3rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: inset 0 0 6px rgba(0,30,120,0.5);
+  }
+
+  .side-nav-item.active {
+    background: rgba(0,80,200,0.4);
+    border-color: var(--blue-bright);
+    box-shadow: 0 0 8px rgba(0,170,255,0.5), inset 0 0 8px rgba(0,80,200,0.4);
+  }
+
+  .side-nav-lbl {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.38rem;
+    letter-spacing: 0.1em;
+    color: var(--blue-glow);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ==========================================
+     COMPONENT 7: PROGRESS / LOADING BAR
+  ========================================== */
+  .progress-set {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .prog-outer {
+    background: #070f38;
+    border: 2px solid var(--blue-core);
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(26,63,255,0.4), inset 0 0 15px rgba(0,20,80,0.7);
+    padding: 14px 16px;
+  }
+
+  .prog-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--blue-glow);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .prog-label span:last-child {
+    color: #fff;
+    text-shadow: 0 0 6px var(--blue-bright);
+  }
+
+  .prog-track {
+    height: 14px;
+    background: rgba(0,10,50,0.9);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: inset 0 0 8px rgba(0,10,60,0.8);
+    position: relative;
+  }
+
+  .prog-fill {
+    height: 100%;
+    border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .prog-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(0,0,0,0.15) 10px,
+      rgba(0,0,0,0.15) 11px
+    );
+  }
+
+  .prog-fill-blue {
+    background: linear-gradient(90deg, #0033cc, #0088ff, #00ccff);
+    width: 72%;
+    box-shadow: 0 0 10px rgba(0,170,255,0.8);
+  }
+
+  .prog-fill-green {
+    background: linear-gradient(90deg, #008822, #00cc44, #00ff88);
+    width: 88%;
+    box-shadow: 0 0 10px rgba(0,255,100,0.8);
+  }
+
+  .prog-fill-red {
+    background: linear-gradient(90deg, #990022, #cc0033, #ff2244);
+    width: 34%;
+    box-shadow: 0 0 10px rgba(255,50,80,0.8);
+  }
+
+  /* ==========================================
+     COMPONENT 8: MINI MAP
+  ========================================== */
+  .minimap {
+    width: 200px;
+    background: #060e30;
+    border: 2px solid var(--blue-bright);
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(0,170,255,0.5), 0 0 50px rgba(0,170,255,0.15), inset 0 0 20px rgba(0,30,120,0.8);
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .minimap-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.3em;
+    color: var(--blue-bright);
+    text-shadow: 0 0 6px var(--blue-bright);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .minimap-view {
+    aspect-ratio: 1;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(0,50,150,0.4) 0%, transparent 70%),
+      linear-gradient(135deg, #030c28, #060e35);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mm-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,80,200,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,80,200,0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .mm-room {
+    position: absolute;
+    background: rgba(0,60,180,0.35);
+    border: 1px solid rgba(77,127,255,0.5);
+    border-radius: 2px;
+  }
+
+  .mm-player {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ff88, 0 0 16px rgba(0,255,136,0.5);
+    transform: translate(-50%,-50%);
+    top: 45%;
+    left: 50%;
+  }
+
+  .mm-enemy {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--red-neon);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--red-neon);
+    transform: translate(-50%,-50%);
+  }
+
+  /* ==========================================
+     COMPONENT 9: NOTIFICATION STACK
+  ========================================== */
+  .notif-stack {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .notif {
+    background: linear-gradient(135deg, #070f38, #0a1550);
+    border: 1.5px solid;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .notif::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+
+  .notif-blue { border-color: rgba(0,170,255,0.5); }
+  .notif-blue::before { background: var(--blue-bright); box-shadow: 0 0 8px var(--blue-bright); }
+
+  .notif-green { border-color: rgba(0,255,68,0.4); }
+  .notif-green::before { background: var(--green-neon); box-shadow: 0 0 8px var(--green-neon); }
+
+  .notif-yellow { border-color: rgba(255,215,0,0.4); }
+  .notif-yellow::before { background: var(--yellow-neon); box-shadow: 0 0 8px var(--yellow-neon); }
+
+  .notif-red { border-color: rgba(255,34,51,0.4); }
+  .notif-red::before { background: var(--red-neon); box-shadow: 0 0 8px var(--red-neon); }
+
+  .notif-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .notif-content { flex: 1; }
+
+  .notif-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .notif-text {
+    font-size: 0.7rem;
+    color: var(--text);
+  }
+
+  .notif-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.45rem;
+    color: rgba(100,150,255,0.6);
+    align-self: flex-start;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+
+  /* ==========================================
+     COMPONENT 10: SELECTOR TABS
+  ========================================== */
+  .tab-selector {
+    width: 260px;
+  }
+
+  .tab-bar {
+    display: flex;
+    background: rgba(5,10,40,0.8);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 9px 6px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: rgba(100,150,255,0.6);
+    text-transform: uppercase;
+    border-right: 1px solid rgba(77,127,255,0.3);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .tab:last-child { border-right: none; }
+
+  .tab.active {
+    background: rgba(0,80,200,0.35);
+    color: var(--blue-bright);
+    text-shadow: 0 0 6px var(--blue-bright);
+  }
+
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--blue-bright);
+    box-shadow: 0 0 8px var(--blue-bright);
+  }
+
+  .tab-content {
+    background: linear-gradient(180deg, #080f3a 0%, #050b28 100%);
+    border: 1px solid rgba(77,127,255,0.4);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 16px;
+    box-shadow: inset 0 0 20px rgba(0,20,80,0.6);
+  }
+
+  .tab-content .dots {
+    border-radius: 6px;
+    padding: 14px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tab-placeholder {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: rgba(77,127,255,0.5);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* ==========================================
+     COMPONENT 11: HUD COMBO
+  ========================================== */
+  .hud-combo {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .hud-health-block {
+    background: #070f38;
+    border: 2px solid rgba(0,255,68,0.6);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,255,68,0.4), inset 0 0 15px rgba(0,20,60,0.8);
+    padding: 12px 10px;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .hud-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 12px var(--green-neon);
+    line-height: 1;
+  }
+
+  .hud-denom {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    color: rgba(0,255,68,0.7);
+    margin-top: 2px;
+  }
+
+  .hud-lbl-sm {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.45rem;
+    letter-spacing: 0.2em;
+    color: var(--green-neon);
+    text-shadow: 0 0 4px var(--green-neon);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .hud-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hud-status-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .hud-buff {
+    width: 34px;
+    height: 34px;
+    background: rgba(0,20,80,0.7);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    position: relative;
+  }
+
+  .hud-buff.buff-active {
+    border: 1.5px solid var(--yellow-neon);
+    box-shadow: 0 0 6px rgba(255,215,0,0.5);
+  }
+
+  .hud-buff.buff-debuff {
+    border: 1.5px solid var(--red-neon);
+    box-shadow: 0 0 6px rgba(255,34,51,0.4);
+  }
+
+  .hud-buff-timer {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.35rem;
+    color: var(--yellow-neon);
+    background: rgba(0,10,40,0.9);
+    padding: 1px 2px;
+    border-radius: 3px;
+  }
+
+  /* ==========================================
+     COMPONENT 12: TOOLTIP
+  ========================================== */
+  .tooltip-demo {
+    position: relative;
+    width: 200px;
+    text-align: center;
+  }
+
+  .tooltip-trigger {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(0,60,180,0.4);
+    border: 2px solid var(--blue-bright);
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-shadow: 0 0 8px var(--blue-bright);
+    box-shadow: 0 0 10px rgba(0,170,255,0.5);
+    text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .tooltip-box {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 190px;
+    background: linear-gradient(180deg, #0c1a60, #070f40);
+    border: 1.5px solid var(--blue-glow);
+    border-radius: 8px;
+    box-shadow: 0 0 16px rgba(77,127,255,0.5), inset 0 0 12px rgba(0,20,80,0.7);
+    padding: 10px 12px;
+    pointer-events: none;
+  }
+
+  .tooltip-box::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 7px solid var(--blue-glow);
+  }
+
+  .tooltip-item-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--yellow-neon);
+    text-shadow: 0 0 6px var(--yellow-neon);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .tooltip-desc {
+    font-size: 0.7rem;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .tooltip-stats {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tooltip-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.45rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .tooltip-tag-blue { background: rgba(0,100,255,0.3); border: 1px solid rgba(0,170,255,0.5); color: #aaddff; }
+  .tooltip-tag-green { background: rgba(0,180,50,0.25); border: 1px solid rgba(0,255,68,0.4); color: #aaffcc; }
+
+  /* ==========================================
+     DOWNLOAD BTN SVG
+  ========================================== */
+  .dl-icon { width: 14px; height: 14px; }
+
+  /* ==========================================
+     FOOTER
+  ========================================== */
+  footer {
+    text-align: center;
+    padding: 40px 20px 60px;
+    border-top: 1px solid rgba(77,127,255,0.2);
+    margin-top: 20px;
+  }
+
+  footer p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: rgba(77,127,255,0.4);
+    text-transform: uppercase;
+  }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #0a1860;
+    border: 1.5px solid var(--green-neon);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: #aaffcc;
+    text-shadow: 0 0 6px var(--green-neon);
+    box-shadow: 0 0 14px rgba(0,255,68,0.4);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="site-title">NEON UI KIT</div>
+  <div class="site-sub">Free Sci-Fi Game Interface Components</div>
+</header>
+
+<div class="gallery">
+
+  <!-- 1. PLAYER STAT CARD -->
+  <div class="card">
+    <div class="card-label">01 — Player Stat Card</div>
+    <div class="preview-wrap" id="prev-1">
+      <div class="stat-card">
+        <div class="neon-panel-outer">
+          <div class="stat-card-inner dots">
+            <div class="stat-avatar">⚔</div>
+            <div class="stat-name">COMMANDER X</div>
+            <div class="stat-rank">RANK IV · ELITE</div>
+            <div class="stat-bars">
+              <div class="stat-row">
+                <div class="stat-row-label">HP</div>
+                <div class="bar-track"><div class="bar-fill bar-hp"></div></div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-row-label">MP</div>
+                <div class="bar-track"><div class="bar-fill bar-mp"></div></div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-row-label">XP</div>
+                <div class="bar-track"><div class="bar-fill bar-xp"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-1','player-stat-card')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 2. NEON BUTTON SET -->
+  <div class="card">
+    <div class="card-label">02 — Neon Button Set</div>
+    <div class="preview-wrap" id="prev-2">
+      <div class="btn-set">
+        <div class="neon-btn neon-btn-green">⚡ CONFIRM ACTION</div>
+        <div class="neon-btn neon-btn-red">✕ CANCEL MISSION</div>
+        <div class="neon-btn neon-btn-yellow">◈ SPECIAL ABILITY</div>
+        <div class="neon-btn neon-btn-blue">▶ DEPLOY UNIT</div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-2','neon-buttons')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 3. NOTCH PANEL -->
+  <div class="card">
+    <div class="card-label">03 — Mission Panel</div>
+    <div class="preview-wrap" id="prev-3">
+      <div class="notch-panel">
+        <div class="notch-panel-header">
+          <div class="notch-panel-header-inner">
+            <div class="np-title">MISSION STATS</div>
+          </div>
+        </div>
+        <div class="np-body dots">
+          <div style="height:10px"></div>
+          <div class="np-stat-grid">
+            <div class="np-stat-box">
+              <div class="np-stat-num">2,450</div>
+              <div class="np-stat-lbl">Score</div>
+            </div>
+            <div class="np-stat-box">
+              <div class="np-stat-num">14</div>
+              <div class="np-stat-lbl">Kills</div>
+            </div>
+            <div class="np-stat-box">
+              <div class="np-stat-num">97%</div>
+              <div class="np-stat-lbl">Accuracy</div>
+            </div>
+            <div class="np-stat-box">
+              <div class="np-stat-num">3:42</div>
+              <div class="np-stat-lbl">Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-3','mission-panel')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 4. INVENTORY GRID -->
+  <div class="card">
+    <div class="card-label">04 — Inventory Grid</div>
+    <div class="preview-wrap" id="prev-4">
+      <div class="inventory">
+        <div class="inv-outer dots">
+          <div class="inv-title">INVENTORY — SLOT 1/12</div>
+          <div class="inv-grid">
+            <div class="inv-slot filled">⚔<span class="slot-count">×1</span></div>
+            <div class="inv-slot filled">🛡<span class="slot-count">×1</span></div>
+            <div class="inv-slot filled">💊<span class="slot-count">×5</span></div>
+            <div class="inv-slot filled">💣<span class="slot-count">×3</span></div>
+            <div class="inv-slot filled">🔑<span class="slot-count">×2</span></div>
+            <div class="inv-slot filled">⚡<span class="slot-count">×9</span></div>
+            <div class="inv-slot filled">🧪<span class="slot-count">×2</span></div>
+            <div class="inv-slot"></div>
+            <div class="inv-slot"></div>
+            <div class="inv-slot"></div>
+            <div class="inv-slot"></div>
+            <div class="inv-slot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-4','inventory-grid')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 5. ALERT DIALOG -->
+  <div class="card">
+    <div class="card-label">05 — Alert Dialog</div>
+    <div class="preview-wrap" id="prev-5">
+      <div class="alert-box">
+        <div class="alert-header">
+          <div class="alert-icon">!</div>
+          <div class="alert-title-text">SYSTEM WARNING</div>
+        </div>
+        <div class="alert-body">
+          <div class="alert-msg">Critical shields at 12%. Retreating now will preserve resources. Continue engagement?</div>
+          <div class="alert-actions">
+            <div class="alert-btn alert-btn-confirm">✓ ENGAGE</div>
+            <div class="alert-btn alert-btn-cancel">✕ RETREAT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-5','alert-dialog')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 6. SIDE NAVIGATION -->
+  <div class="card">
+    <div class="card-label">06 — Side Navigation</div>
+    <div class="preview-wrap" id="prev-6">
+      <div class="side-panel">
+        <div class="side-nav-item active">🗺<div class="side-nav-lbl">Map</div></div>
+        <div class="side-nav-item">⚔<div class="side-nav-lbl">Combat</div></div>
+        <div class="side-nav-item">🎒<div class="side-nav-lbl">Inventory</div></div>
+        <div class="side-nav-item">👤<div class="side-nav-lbl">Profile</div></div>
+        <div class="side-nav-item">⚙<div class="side-nav-lbl">Settings</div></div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-6','side-navigation')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 7. PROGRESS BARS -->
+  <div class="card">
+    <div class="card-label">07 — Progress Bars</div>
+    <div class="preview-wrap" id="prev-7">
+      <div class="progress-set">
+        <div class="prog-outer">
+          <div class="prog-label"><span>SHIELDS</span><span>72%</span></div>
+          <div class="prog-track"><div class="prog-fill prog-fill-blue"></div></div>
+        </div>
+        <div class="prog-outer">
+          <div class="prog-label"><span>POWER</span><span>88%</span></div>
+          <div class="prog-track"><div class="prog-fill prog-fill-green"></div></div>
+        </div>
+        <div class="prog-outer">
+          <div class="prog-label"><span>HULL</span><span>34%</span></div>
+          <div class="prog-track"><div class="prog-fill prog-fill-red"></div></div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-7','progress-bars')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 8. MINIMAP -->
+  <div class="card">
+    <div class="card-label">08 — Mini Map</div>
+    <div class="preview-wrap" id="prev-8">
+      <div class="minimap">
+        <div class="minimap-title">SECTOR 7-G · LIVE</div>
+        <div class="minimap-view">
+          <div class="mm-grid"></div>
+          <div class="mm-room" style="left:10%;top:10%;width:30%;height:25%"></div>
+          <div class="mm-room" style="left:50%;top:15%;width:35%;height:20%"></div>
+          <div class="mm-room" style="left:15%;top:45%;width:40%;height:30%"></div>
+          <div class="mm-room" style="left:60%;top:55%;width:28%;height:25%"></div>
+          <div class="mm-player"></div>
+          <div class="mm-enemy" style="top:20%;left:65%"></div>
+          <div class="mm-enemy" style="top:70%;left:72%"></div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-8','minimap')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 9. NOTIFICATION STACK -->
+  <div class="card">
+    <div class="card-label">09 — Notifications</div>
+    <div class="preview-wrap" id="prev-9">
+      <div class="notif-stack">
+        <div class="notif notif-blue">
+          <div class="notif-icon">🔵</div>
+          <div class="notif-content">
+            <div class="notif-heading">NEW OBJECTIVE</div>
+            <div class="notif-text">Reach the extraction point</div>
+          </div>
+          <div class="notif-time">00:14</div>
+        </div>
+        <div class="notif notif-green">
+          <div class="notif-icon">✅</div>
+          <div class="notif-content">
+            <div class="notif-heading">MISSION COMPLETE</div>
+            <div class="notif-text">+2,450 XP awarded</div>
+          </div>
+          <div class="notif-time">00:32</div>
+        </div>
+        <div class="notif notif-yellow">
+          <div class="notif-icon">⚠</div>
+          <div class="notif-content">
+            <div class="notif-heading">LOW AMMO</div>
+            <div class="notif-text">Primary weapon: 8 rounds</div>
+          </div>
+          <div class="notif-time">01:05</div>
+        </div>
+        <div class="notif notif-red">
+          <div class="notif-icon">💀</div>
+          <div class="notif-content">
+            <div class="notif-heading">UNIT LOST</div>
+            <div class="notif-text">Squad member KIA at Node 4</div>
+          </div>
+          <div class="notif-time">01:22</div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-9','notifications')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 10. TAB SELECTOR -->
+  <div class="card">
+    <div class="card-label">10 — Tab Selector</div>
+    <div class="preview-wrap" id="prev-10">
+      <div class="tab-selector">
+        <div class="tab-bar">
+          <div class="tab active">INTEL</div>
+          <div class="tab">SQUAD</div>
+          <div class="tab">SUPPLY</div>
+          <div class="tab">COMMS</div>
+        </div>
+        <div class="tab-content">
+          <div class="tab-content dots">
+            <div class="tab-placeholder">[ INTEL DATA LOADED ]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-10','tab-selector')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 11. HUD COMBO -->
+  <div class="card">
+    <div class="card-label">11 — HUD Combo</div>
+    <div class="preview-wrap" id="prev-11">
+      <div style="width:260px; background:#070f38; border:2px solid var(--blue-core); border-radius:12px; box-shadow: 0 0 10px rgba(26,63,255,0.4), inset 0 0 15px rgba(0,20,80,0.7); padding:14px;">
+        <div class="hud-combo">
+          <div class="hud-health-block">
+            <div class="hud-num">847</div>
+            <div class="hud-denom">/ 1000</div>
+            <div class="hud-lbl-sm">HEALTH</div>
+          </div>
+          <div class="hud-right">
+            <div class="hud-status-row">
+              <div class="hud-buff buff-active">🔥<div class="hud-buff-timer">12s</div></div>
+              <div class="hud-buff buff-active">⚡<div class="hud-buff-timer">8s</div></div>
+              <div class="hud-buff buff-debuff">❄<div class="hud-buff-timer">4s</div></div>
+              <div class="hud-buff">🛡</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+              <div class="prog-label" style="margin-bottom:3px;"><span>ARMOR</span><span>61%</span></div>
+              <div class="prog-track"><div class="prog-fill prog-fill-blue" style="width:61%"></div></div>
+              <div class="prog-label" style="margin-bottom:3px;"><span>ENERGY</span><span>40%</span></div>
+              <div class="prog-track"><div class="prog-fill prog-fill-green" style="width:40%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-11','hud-combo')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+  <!-- 12. TOOLTIP -->
+  <div class="card">
+    <div class="card-label">12 — Item Tooltip</div>
+    <div class="preview-wrap" id="prev-12" style="padding-top:110px;">
+      <div class="tooltip-demo">
+        <div class="tooltip-box">
+          <div class="tooltip-item-name">⚔ Plasma Blade MK-III</div>
+          <div class="tooltip-desc">High-frequency energy blade capable of cutting through reinforced hull plating.</div>
+          <div class="tooltip-stats">
+            <div class="tooltip-tag tooltip-tag-blue">ATK +180</div>
+            <div class="tooltip-tag tooltip-tag-green">ENERGY</div>
+            <div class="tooltip-tag tooltip-tag-blue">RARE</div>
+          </div>
+        </div>
+        <div class="tooltip-trigger">PLASMA BLADE</div>
+      </div>
+    </div>
+    <button class="dl-btn" onclick="download('prev-12','tooltip')">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.879a2 2 0 001.939-1.515L22 17"/>
+      </svg>
+      Download PNG
+    </button>
+  </div>
+
+</div>
+
+<footer>
+  <p>NEON UI KIT · All components free to use · Built with pure HTML + CSS</p>
+</footer>
+
+<div class="toast" id="toast">✓ PNG DOWNLOADED</div>
+
+<script>
+  async function download(previewId, filename) {
+    const el = document.getElementById(previewId);
+    try {
+      const canvas = await html2canvas(el, {
+        backgroundColor: '#08101e',
+        scale: 2,
+        useCORS: true,
+        logging: false
+      });
+      const link = document.createElement('a');
+      link.download = `neon-ui-${filename}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast();
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+</script>
+</body>
+</html>
